@@ -1,6 +1,11 @@
 // Assignment Code
-var generateBtn = document.querySelector("#generate");
 
+// +++++ Stores the button and textarea refs into variables -----
+var generateBtn = document.querySelector("#generate");
+var passwordText = document.querySelector("#password");
+// ----- Stores the button and textarea refs into variables +++++
+
+// +++++ Function that calls the confirm questions and return the answers -----
 var questions = function () {
   // Password length (>= 8 && <= 128)
   do {
@@ -46,7 +51,9 @@ var questions = function () {
     pswdSpecialCharacters,
   };
 };
+// ----- Function that calls the confirm questions and return the answers +++++
 
+// +++++ Function that returns a character based on the type provided -----
 var getChar = function (type) {
   var alphabet = "abcdefghijklmnopqrstuvwxyz";
   var numbers = "0123456789";
@@ -66,8 +73,10 @@ var getChar = function (type) {
     return special[position];
   }
 };
+// ----- Function that returns a character based on the type provided +++++
 
-var randomType = function (answers) {
+// +++++ Function that returns a random type -----
+var getType = function (answers) {
   do {
     var num = Math.floor(Math.random() * 4);
     if (num === 0 && answers.pswdLowercase === true) return "lowercase";
@@ -76,21 +85,26 @@ var randomType = function (answers) {
     if (num === 3 && answers.pswdSpecialCharacters === true) return "special";
   } while (true);
 };
+// ----- Function that returns a random type +++++
 
-var generatePassword = function () {
+// +++++ Function that returns the new password -----
+var generatePassword = function (answers) {
   var newPassword = "";
-  var answers = questions();
 
   for (i = 1; i <= answers.pswdLength; i++) {
-    newPassword += getChar(randomType(answers));
+    var randomType = getType(answers);
+    var randomChar = getChar(randomType);
+
+    newPassword += randomChar;
   }
   return newPassword;
 };
+// ----- Function that returns the new password +++++
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  var answers = questions();
+  var password = generatePassword(answers);
 
   passwordText.value = password;
 }
